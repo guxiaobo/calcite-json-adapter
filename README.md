@@ -21,7 +21,7 @@ limitations under the License.
 
 A dynamic reflective calcite adapter for json lists.
 
-It contains calcite related classes to make Map<String, List<JSONObject>>
+It contains calcite related classes to make Map<String, List<JSONObject> >
 
 a SQL queryable schema, with map keys as table names, and each List a table.
 

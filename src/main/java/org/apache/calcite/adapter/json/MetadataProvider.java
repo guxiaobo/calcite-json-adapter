@@ -16,37 +16,22 @@
  */
 package org.apache.calcite.adapter.json;
 
-import java.util.List;
-import org.apache.calcite.DataContext;
-import org.apache.calcite.linq4j.AbstractEnumerable;
-import org.apache.calcite.linq4j.Enumerable;
-import org.apache.calcite.linq4j.Enumerator;
-import org.apache.calcite.schema.ScannableTable;
-import com.alibaba.fastjson.JSONObject;
-/****
+import java.util.Set;
+import org.apache.calcite.rel.type.RelDataType;
+import org.apache.calcite.rel.type.RelDataTypeFactory;
+
+/***
+ * MetadataProvider allowes users to supply their own mechanism to fetch metadata 
+ * about tables, columns, datatypes from external storages.
  * 
  * @author xiaobo gu
  *
  */
-public class JsonScannableTable extends JsonTable
-	implements ScannableTable {
+public interface MetadataProvider {
 	
-	public JsonScannableTable(
-			String tableName, 
-			List<JSONObject> data,  
-			MetadataProvider metaProvider) {
-		super(tableName, data, metaProvider);
-	}
+	public Set<String> getTableNames();
+	
+	public RelDataType getTableRowType(String tableName, RelDataTypeFactory typeFactory);
 
-	public String toString() {
-		return "JsonScannableTable";
-	}
-
-	public Enumerable<Object[]> scan(DataContext root) {
-		return new AbstractEnumerable<Object[]>() {
-		  public Enumerator<Object[]> enumerator() {
-		    return new JsonEnumerator(tableName, data, rowDataType);
-		  }
-		};
-	}
+	
 }
