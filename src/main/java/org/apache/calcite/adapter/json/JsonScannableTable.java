@@ -18,6 +18,7 @@ package org.apache.calcite.adapter.json;
 
 import java.util.List;
 import org.apache.calcite.DataContext;
+import org.apache.calcite.adapter.java.JavaTypeFactory;
 import org.apache.calcite.linq4j.AbstractEnumerable;
 import org.apache.calcite.linq4j.Enumerable;
 import org.apache.calcite.linq4j.Enumerator;
@@ -43,6 +44,10 @@ public class JsonScannableTable extends JsonTable
 	}
 
 	public Enumerable<Object[]> scan(DataContext root) {
+		JavaTypeFactory typeFactory = root.getTypeFactory();
+		if(rowDataType == null)
+			getRowType(typeFactory);
+		
 		return new AbstractEnumerable<Object[]>() {
 		  public Enumerator<Object[]> enumerator() {
 		    return new JsonEnumerator(tableName, data, rowDataType);

@@ -33,7 +33,7 @@ import org.apache.calcite.schema.impl.AbstractSchema;
 public class JsonSchema 
 	extends AbstractSchema {
 	
-	protected Map<String, Table> tableMap;
+	//protected Map<String, Table> tableMap;
 	protected Map<String, List<JSONObject>> data;
 	protected MetadataProvider metaProvider;
 	
@@ -43,8 +43,8 @@ public class JsonSchema
 	 * @param metaProvider
 	 */
 	public JsonSchema(Map<String, List<JSONObject>> data, MetadataProvider metaProvider) {
+		super();
 		assert data != null;
-
 		this.data = data;
 		this.metaProvider = metaProvider != null ?  metaProvider : new DefaultMetadataProvider(data);
 	}

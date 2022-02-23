@@ -17,13 +17,14 @@
 package org.apache.calcite.adapter.json;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.calcite.adapter.java.JavaTypeFactory;
 import org.apache.calcite.rel.type.RelDataType;
 
 /***
- * At the moment, we only support 7 common used types.
+ * At the moment, we only support 5 common used types.
  * @author xiaobo gu
  *
  */
@@ -32,9 +33,7 @@ enum JsonFieldType {
 	  BOOLEAN(Boolean.class, "boolean"),
 	  LONG(Long.class, "long"),
 	  DECIMAL(BigDecimal.class, "decimal"),
-	  DATE(java.sql.Date.class, "date"),
-	  TIME(java.sql.Time.class, "time"),
-	  TIMESTAMP(java.sql.Timestamp.class, "timestamp");
+	  DATE(LocalDateTime.class, "date");
 
 	  @SuppressWarnings("rawtypes")
 	private final Class clazz;
