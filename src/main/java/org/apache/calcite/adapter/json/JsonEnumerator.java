@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import org.apache.calcite.avatica.util.DateTimeUtils;
 import org.apache.calcite.linq4j.Enumerator;
@@ -80,6 +81,11 @@ public class JsonEnumerator implements Enumerator<Object[]> {
 							  (((LocalDateTime)fieldData).atZone(
 									  ZoneId.systemDefault())).toInstant());
 					  obj[j] = date.getTime();
+					  break;
+				  case TIME:
+					  LocalTime t = (LocalTime)fieldData;
+					  int seconds = (t.getHour()*3600 + t.getMinute()*60 + t.getSecond())*1000;
+					  obj[j] = seconds;
 					  break;
 				  case VARCHAR:
 					  default:

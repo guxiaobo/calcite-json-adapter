@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,7 @@ public class JsonSchemaTest extends BaseTest{
 		r1.put("c7", Integer.valueOf(200));
 		r1.put("c8", Double.valueOf(3.43d));
 		r1.put("c9", Float.valueOf(2.33f));
+		r1.put("c10", LocalTime.now());
 		
 		return map;
 	}
@@ -42,7 +44,7 @@ public class JsonSchemaTest extends BaseTest{
 	public void test10() throws SQLException {
 		Map<String, List<JSONObject>> map = makeJsonMap();
 		
-		String sql1 = "select count(*) from t1";
+		//String sql1 = "select count(*) from t1";
 		String sql2 = "select count(*) from js.t1";
 
 		Schema schema = new JsonSchema(map);
@@ -61,7 +63,7 @@ public class JsonSchemaTest extends BaseTest{
 		System.out.println("c9 as float = " + exeGetFloat(conn, "select c9 from js.t1 limit 1"));
 		System.out.println("c8 as double = " + exeGetDouble(conn, "select c8 from js.t1 limit 1"));
 		System.out.println("c9 as double = " + exeGetDouble(conn, "select c9 from js.t1 limit 1"));
-		
+		System.out.println("c10 = " + exeGetTime(conn, "select c10 from js.t1 limit 1"));
 		conn.close();
 	}
 

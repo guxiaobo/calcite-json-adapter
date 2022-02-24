@@ -19,6 +19,7 @@ package org.apache.calcite.adapter.json;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.calcite.adapter.java.JavaTypeFactory;
@@ -37,6 +38,7 @@ enum JsonFieldType {
 	  DECIMAL(BigDecimal.class, "decimal"),
 	  DATE(LocalDate.class, "date"),
 	  TIMESTAMP(LocalDateTime.class, "timestamp"),
+	  TIME(LocalTime.class, "time"),
 	  INTEGER(Integer.class, "integer"),
 	  FLOAT(Double.class, "float"),
 	  REAL(Float.class, "real");
@@ -93,7 +95,9 @@ enum JsonFieldType {
 			case DATE:
 				return toNullableRelDataType(typeFactory, SqlTypeName.DATE);
 			case TIMESTAMP:
-				return toNullableRelDataType(typeFactory, SqlTypeName.TIMESTAMP);				
+				return toNullableRelDataType(typeFactory, SqlTypeName.TIMESTAMP);	
+			case TIME:
+				return toNullableRelDataType(typeFactory, SqlTypeName.TIME);	
 			default:
 				return toNullableRelDataType(typeFactory, SqlTypeName.VARCHAR);
 			}
