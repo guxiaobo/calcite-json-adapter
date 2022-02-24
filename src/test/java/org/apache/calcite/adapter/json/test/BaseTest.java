@@ -151,9 +151,6 @@ public class BaseTest {
 		statement.close();
 		return ret;
 	}
-	
-	
-
 
 
 }

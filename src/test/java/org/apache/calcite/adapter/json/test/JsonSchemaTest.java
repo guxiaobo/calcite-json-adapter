@@ -33,7 +33,7 @@ public class JsonSchemaTest extends BaseTest{
 		r1.put("c6", LocalDateTime.now());
 		r1.put("c7", Integer.valueOf(200));
 		r1.put("c8", Double.valueOf(3.43d));
-		r1.put("c9", Float.valueOf("2.33"));
+		r1.put("c9", Float.valueOf(2.33f));
 		
 		return map;
 	}
@@ -57,8 +57,11 @@ public class JsonSchemaTest extends BaseTest{
 		System.out.println("c5 = " + exeGetDate(conn, "select c5 from js.t1 limit 1"));
 		System.out.println("c6 = " + exeGetTimestamp(conn, "select c6 from js.t1 limit 1"));
 		System.out.println("c7 = " + exeGetInteger(conn, "select c7 from js.t1 limit 1"));
-		System.out.println("c8 = " + exeGetDouble(conn, "select c8 from js.t1 limit 1"));
-		System.out.println("c9 = " + exeGetFloat(conn, "select c9 from js.t1 limit 1"));
+		System.out.println("c8 as float = " + exeGetFloat(conn, "select c8 from js.t1 limit 1"));
+		System.out.println("c9 as float = " + exeGetFloat(conn, "select c9 from js.t1 limit 1"));
+		System.out.println("c8 as double = " + exeGetDouble(conn, "select c8 from js.t1 limit 1"));
+		System.out.println("c9 as double = " + exeGetDouble(conn, "select c9 from js.t1 limit 1"));
+		
 		conn.close();
 	}
 

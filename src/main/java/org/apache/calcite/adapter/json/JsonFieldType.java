@@ -38,8 +38,8 @@ enum JsonFieldType {
 	  DATE(LocalDate.class, "date"),
 	  TIMESTAMP(LocalDateTime.class, "timestamp"),
 	  INTEGER(Integer.class, "integer"),
-	  FLOAT(Float.class, "float"),
-	  DOUBLE(Double.class, "double");
+	  FLOAT(Double.class, "float"),
+	  REAL(Float.class, "real");
 
 	  @SuppressWarnings("rawtypes")
 	  private final Class clazz;
@@ -86,10 +86,10 @@ enum JsonFieldType {
 				return toNullableRelDataType(typeFactory, SqlTypeName.DECIMAL);
 			case INTEGER:
 				return toNullableRelDataType(typeFactory, SqlTypeName.INTEGER);
+			case REAL:
+				return toNullableRelDataType(typeFactory, SqlTypeName.REAL);
 			case FLOAT:
 				return toNullableRelDataType(typeFactory, SqlTypeName.FLOAT);
-			case DOUBLE:
-				return toNullableRelDataType(typeFactory, SqlTypeName.DOUBLE);
 			case DATE:
 				return toNullableRelDataType(typeFactory, SqlTypeName.DATE);
 			case TIMESTAMP:

@@ -65,7 +65,7 @@ public class JsonEnumerator implements Enumerator<Object[]> {
 				  case BOOLEAN:
 				  case DECIMAL:
 				  case INTEGER:
-				  case DOUBLE:
+				  case REAL:
 				  case FLOAT:
 					  obj[j] = fieldData;
 					  break;
