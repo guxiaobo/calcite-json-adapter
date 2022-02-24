@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.apache.calcite.jdbc.CalciteConnection;
@@ -79,6 +80,18 @@ public class BaseTest {
 		return ret;
 	}
 	
+	public static Timestamp exeGetTimestamp(Connection conn, String sql) throws SQLException {
+		Statement statement = conn.createStatement();
+		ResultSet rs = statement.executeQuery(sql);
+		Timestamp ret = null;
+		if(rs.next()) {
+			ret = rs.getTimestamp(1);
+		}
+		rs.close();
+		statement.close();
+		return ret;
+	}
+	
 	public static Time exeGetTime(Connection conn, String sql) throws SQLException {
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
@@ -102,6 +115,45 @@ public class BaseTest {
 		statement.close();
 		return ret;
 	}
+	
+	public static Integer exeGetInteger(Connection conn, String sql) throws SQLException {
+		Statement statement = conn.createStatement();
+		ResultSet rs = statement.executeQuery(sql);
+		Integer ret = null;
+		if(rs.next()) {
+			ret = rs.getInt(1);
+		}
+		rs.close();
+		statement.close();
+		return ret;
+	}
+	
+	public static Float exeGetFloat(Connection conn, String sql) throws SQLException {
+		Statement statement = conn.createStatement();
+		ResultSet rs = statement.executeQuery(sql);
+		Float ret = null;
+		if(rs.next()) {
+			ret = rs.getFloat(1);
+		}
+		rs.close();
+		statement.close();
+		return ret;
+	}
+	
+	public static Double exeGetDouble(Connection conn, String sql) throws SQLException {
+		Statement statement = conn.createStatement();
+		ResultSet rs = statement.executeQuery(sql);
+		Double ret = null;
+		if(rs.next()) {
+			ret = rs.getDouble(1);
+		}
+		rs.close();
+		statement.close();
+		return ret;
+	}
+	
+	
+
 
 
 }

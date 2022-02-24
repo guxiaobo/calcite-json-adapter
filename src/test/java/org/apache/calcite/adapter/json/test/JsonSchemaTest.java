@@ -31,11 +31,14 @@ public class JsonSchemaTest extends BaseTest{
 		r1.put("c4", new BigDecimal("2.1"));
 		r1.put("c5", LocalDate.now());
 		r1.put("c6", LocalDateTime.now());
+		r1.put("c7", Integer.valueOf(200));
+		r1.put("c8", Double.valueOf(3.43d));
+		r1.put("c9", Float.valueOf("2.33"));
 		
 		return map;
 	}
 	
-	//@Test
+	@Test
 	public void test10() throws SQLException {
 		Map<String, List<JSONObject>> map = makeJsonMap();
 		
@@ -45,10 +48,18 @@ public class JsonSchemaTest extends BaseTest{
 		Schema schema = new JsonSchema(map);
 		
 		CalciteConnection conn = this.openConn1(schema, "js");		
-		Long l1 = exeGetLong(conn, sql2);
-		System.out.println("sql result1 " + l1);
+		//System.out.println("sql1 result " + exeGetLong(conn, sql1));
+		System.out.println("sql2 result " + exeGetLong(conn, sql2));
+		System.out.println("c1 = " + exeGetLong(conn, "select c1 from js.t1 limit 1"));
+		System.out.println("c2 = " + exeGetString(conn, "select c2 from js.t1 limit 1"));
+		System.out.println("c3 = " + exeGetBoolean(conn, "select c3 from js.t1 limit 1"));
+		System.out.println("c4 = " + exeGetDecimal(conn, "select c4 from js.t1 limit 1"));
+		System.out.println("c5 = " + exeGetDate(conn, "select c5 from js.t1 limit 1"));
+		System.out.println("c6 = " + exeGetTimestamp(conn, "select c6 from js.t1 limit 1"));
+		System.out.println("c7 = " + exeGetInteger(conn, "select c7 from js.t1 limit 1"));
+		System.out.println("c8 = " + exeGetDouble(conn, "select c8 from js.t1 limit 1"));
+		System.out.println("c9 = " + exeGetFloat(conn, "select c9 from js.t1 limit 1"));
 		conn.close();
 	}
-
 
 }
