@@ -17,14 +17,16 @@
 package org.apache.calcite.adapter.json;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.calcite.adapter.java.JavaTypeFactory;
 import org.apache.calcite.rel.type.RelDataType;
+import org.apache.calcite.sql.type.SqlTypeName;
 
 /***
- * At the moment, we only support 5 common used types.
+ * At the moment, we only support 6 common used types.
  * @author xiaobo gu
  *
  */
@@ -33,10 +35,11 @@ enum JsonFieldType {
 	  BOOLEAN(Boolean.class, "boolean"),
 	  LONG(Long.class, "long"),
 	  DECIMAL(BigDecimal.class, "decimal"),
-	  DATE(LocalDateTime.class, "date");
+	  DATE(LocalDate.class, "date"),
+	  TIMESTAMP(LocalDateTime.class, "timestamp");
 
 	  @SuppressWarnings("rawtypes")
-	private final Class clazz;
+	  private final Class clazz;
 	  private final String simpleName;
 
 	  private static final Map<String, JsonFieldType> MAP = new HashMap<>();
@@ -48,25 +51,45 @@ enum JsonFieldType {
 	  }
 
 	  @SuppressWarnings("rawtypes")
-	JsonFieldType(Class clazz, String simpleName) {
+	  JsonFieldType(Class clazz, String simpleName) {
 	    this.clazz = clazz;
 	    this.simpleName = simpleName;
 	  }
 	  
 	  @SuppressWarnings("rawtypes")
-	public Class getClazz() {
+	  public Class getClazz() {
 		  return clazz;
 	  }
 	  
 	  public String getSimpleName() {
 		return simpleName;
-	}
-
-	public RelDataType toType(JavaTypeFactory typeFactory) {
-	    RelDataType javaType = typeFactory.createJavaType(clazz);
-	    RelDataType sqlType = typeFactory.createSqlType(javaType.getSqlTypeName());
-	    return typeFactory.createTypeWithNullability(sqlType, true);
 	  }
+
+	  private static RelDataType toNullableRelDataType(
+			JavaTypeFactory typeFactory,
+		    SqlTypeName sqlTypeName) {	
+		return typeFactory.createTypeWithNullability(typeFactory.createSqlType(sqlTypeName), true);
+	  }
+	  
+		public RelDataType toType(JavaTypeFactory typeFactory) {
+			switch(this) {
+			case STRING:
+				return toNullableRelDataType(typeFactory, SqlTypeName.VARCHAR);
+			case BOOLEAN:
+				return toNullableRelDataType(typeFactory, SqlTypeName.BOOLEAN);
+			case LONG:
+				return toNullableRelDataType(typeFactory, SqlTypeName.BIGINT);
+			case DECIMAL:
+				return toNullableRelDataType(typeFactory, SqlTypeName.DECIMAL);
+			case DATE:
+				return toNullableRelDataType(typeFactory, SqlTypeName.DATE);
+			case TIMESTAMP:
+				return toNullableRelDataType(typeFactory, SqlTypeName.TIMESTAMP);				
+			default:
+				return toNullableRelDataType(typeFactory, SqlTypeName.VARCHAR);
+			}
+		    
+		}
 
 	  public static JsonFieldType of(String typeString) {
 	    return MAP.get(typeString);

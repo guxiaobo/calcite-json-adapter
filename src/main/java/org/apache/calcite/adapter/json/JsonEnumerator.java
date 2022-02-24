@@ -17,11 +17,17 @@
 package org.apache.calcite.adapter.json;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import org.apache.calcite.avatica.util.DateTimeUtils;
 import org.apache.calcite.linq4j.Enumerator;
 import org.apache.calcite.linq4j.Linq4j;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeField;
+import org.apache.calcite.sql.type.SqlTypeName;
 import com.alibaba.fastjson.JSONObject;
 
 
@@ -51,7 +57,31 @@ public class JsonEnumerator implements Enumerator<Object[]> {
 		  for(int i = 0; i < data.size(); i++) {
 			  Object[] obj = new Object[fieldCount];
 			  for(int j = 0; j < fields.size(); j++) {
-				  obj[j] = data.get(i).get(fields.get(j).getName());
+				  RelDataTypeField field = fields.get(j);
+				  Object fieldData = data.get(i).get(field.getName());
+				  SqlTypeName sName = field.getType().getSqlTypeName();
+				  switch(sName) {
+				  case BIGINT:
+				  case BOOLEAN:
+				  case DECIMAL:
+					  obj[j] = fieldData;
+					  break;
+				  case DATE:
+					  Date date = Date.from(
+							  (((LocalDate)fieldData).atStartOfDay(
+									  ZoneId.systemDefault())).toInstant());
+					  obj[j] = (int)(date.getTime() / DateTimeUtils.MILLIS_PER_DAY);
+					  break;
+				  case TIMESTAMP:
+					  date = Date.from(
+							  (((LocalDateTime)fieldData).atZone(
+									  ZoneId.systemDefault())).toInstant());
+					  obj[j] = date.getTime();
+					  break;
+				  case VARCHAR:
+					  default:
+					  obj[j] = fieldData.toString();			  
+				  }
 			  }
 			  objs.add(obj);
 		  }		  

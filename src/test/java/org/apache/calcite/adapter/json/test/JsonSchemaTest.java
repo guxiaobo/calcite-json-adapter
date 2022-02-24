@@ -2,6 +2,8 @@ package org.apache.calcite.adapter.json.test;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +29,8 @@ public class JsonSchemaTest extends BaseTest{
 		r1.put("c2", "column2");
 		r1.put("c3", Boolean.FALSE);
 		r1.put("c4", new BigDecimal("2.1"));
-		r1.put("c5", new java.sql.Date(2022, 2, 22));
-		r1.put("c6", new java.sql.Time(System.currentTimeMillis()));
-		r1.put("c7", new java.sql.Timestamp(System.currentTimeMillis()));
+		r1.put("c5", LocalDate.now());
+		r1.put("c6", LocalDateTime.now());
 		
 		return map;
 	}
