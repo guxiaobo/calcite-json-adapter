@@ -24,6 +24,8 @@ public class JsonSchemaTest extends BaseTest{
 		List<JSONObject> t1 = new ArrayList<JSONObject>();
 		JSONObject r1 = new JSONObject();
 		t1.add(r1);
+		t1.add(r1);
+		t1.add(r1);
 		map.put("t1", t1);
 		
 		r1.put("c1", Long.valueOf(100));
@@ -52,7 +54,7 @@ public class JsonSchemaTest extends BaseTest{
 		CalciteConnection conn = this.openConn1(schema, "js");		
 		//System.out.println("sql1 result " + exeGetLong(conn, sql1));
 		System.out.println("sql2 result " + exeGetLong(conn, sql2));
-		System.out.println("c1 = " + exeGetLong(conn, "select c1 from js.t1 limit 1"));
+		System.out.println("c1 = " + exeGetLong(conn, "select max(c1) from js.t1"));
 		System.out.println("c2 = " + exeGetString(conn, "select c2 from js.t1 limit 1"));
 		System.out.println("c3 = " + exeGetBoolean(conn, "select c3 from js.t1 limit 1"));
 		System.out.println("c4 = " + exeGetDecimal(conn, "select c4 from js.t1 limit 1"));
