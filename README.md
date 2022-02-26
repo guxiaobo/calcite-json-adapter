@@ -23,13 +23,13 @@ A dynamic reflective calcite adapter for json lists.
 
 It contains calcite related classes to make Map<String, List < JSONObject> >
 
-a SQL queryable schema, map keys are mapped to table names, each List  is mapper to a table,
-and each JSONObject objec is mapped to row, JSONobject's keys are mapped as columns.
+a SQL queryable schema, Map keys are mapped to table names, each List  is mapped to a table,
+each JSONObject objec is mapped to a row, JSONobject's keys are mapped to columns names.
 
 
 For more details about Calcite, see the [home page](http://calcite.apache.org).
 
-calcite-json-adapter can only query the first level sub-objects of JSONObject, and only
+calcite-json-adapter can only query the first level sub-objects of JSONObjects, and only
 sub-objects of the following Java classes can be mapped to columns,sub-objects of other JAVA type will be ignored.
 
 String (mapped as VARCHAR)
