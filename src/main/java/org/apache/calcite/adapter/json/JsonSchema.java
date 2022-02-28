@@ -34,6 +34,7 @@ public class JsonSchema
 	extends AbstractSchema {
 	
 	//protected Map<String, Table> tableMap;
+	protected String schemaName;
 	protected Map<String, List<JSONObject>> data;
 	protected MetadataProvider metaProvider;
 	
@@ -42,9 +43,11 @@ public class JsonSchema
 	 * @param data
 	 * @param metaProvider
 	 */
-	public JsonSchema(Map<String, List<JSONObject>> data, MetadataProvider metaProvider) {
+	public JsonSchema(String schemaName, Map<String, List<JSONObject>> data, MetadataProvider metaProvider) {
 		super();
 		assert data != null;
+		
+		this.schemaName = schemaName;
 		this.data = data;
 		this.metaProvider = metaProvider != null ?  metaProvider : new DefaultMetadataProvider(data);
 	}
@@ -52,8 +55,8 @@ public class JsonSchema
 	 * Create a JsonSchema using the DefaultMetadataProvider.
 	 * @param data
 	 */
-	public JsonSchema(Map<String, List<JSONObject>> data) {
-		this(data,null);
+	public JsonSchema(String schemaName, Map<String, List<JSONObject>> data) {
+		this(schemaName, data,null);
 	}
 	
 	@Override 
@@ -62,7 +65,7 @@ public class JsonSchema
 	    final ImmutableMap.Builder<String, Table> builder = ImmutableMap.builder();
 	    
 	    for (Entry<String,List<JSONObject>> e : data.entrySet()) {
-	        final Table table = new JsonScannableTable(e.getKey(),e.getValue(), metaProvider);
+	        final Table table = new JsonScannableTable(schemaName, e.getKey(), e.getValue(), metaProvider);
 	        builder.put(e.getKey(), table);
 	    }
 	    return builder.build();

@@ -31,7 +31,7 @@ public interface MetadataProvider {
 	
 	public Set<String> getTableNames();
 	
-	public RelDataType getTableRowType(String tableName, RelDataTypeFactory typeFactory);
+	public RelDataType getTableRowType(String schemaName, String tableName, RelDataTypeFactory typeFactory);
 
 	
 }

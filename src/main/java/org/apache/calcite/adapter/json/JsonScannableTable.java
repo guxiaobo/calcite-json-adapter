@@ -33,10 +33,11 @@ public class JsonScannableTable extends JsonTable
 	implements ScannableTable {
 	
 	public JsonScannableTable(
+			String schemaName,
 			String tableName, 
 			List<JSONObject> data,  
 			MetadataProvider metaProvider) {
-		super(tableName, data, metaProvider);
+		super(schemaName, tableName, data, metaProvider);
 	}
 
 	public String toString() {

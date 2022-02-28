@@ -49,7 +49,7 @@ public class JsonSchemaTest extends BaseTest{
 		//String sql1 = "select count(*) from t1";
 		String sql2 = "select count(*) from js.t1";
 
-		Schema schema = new JsonSchema(map);
+		Schema schema = new JsonSchema("js", map);
 		
 		CalciteConnection conn = this.openConn1(schema, "js");		
 		//System.out.println("sql1 result " + exeGetLong(conn, sql1));

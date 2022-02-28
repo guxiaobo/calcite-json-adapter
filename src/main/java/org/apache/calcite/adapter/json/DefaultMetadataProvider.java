@@ -51,7 +51,9 @@ public class DefaultMetadataProvider
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public RelDataType getTableRowType(String tableName, RelDataTypeFactory typeFactory) {
+	public RelDataType getTableRowType(
+			String schemaName, String tableName, 
+			RelDataTypeFactory typeFactory) {
 		List<JSONObject> table = data.get(tableName);
 		if (null == table || table.isEmpty())
 			return null;

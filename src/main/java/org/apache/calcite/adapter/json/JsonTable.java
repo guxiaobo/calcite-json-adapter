@@ -31,16 +31,19 @@ import com.alibaba.fastjson.JSONObject;
  *
  */
 public class JsonTable extends AbstractTable {
+	protected String schemaName;
 	protected String tableName;
 	protected List<JSONObject> data ;
 	protected MetadataProvider metaProvider;
 	protected RelDataType rowDataType;
 	
-	public JsonTable(String tableName, List<JSONObject> data,  MetadataProvider metaProvider) {
+	public JsonTable(String schemaName, String tableName, 
+			List<JSONObject> data,  MetadataProvider metaProvider) {
 		assert tableName != null && !tableName.isBlank();
 		assert data != null;
 		assert metaProvider != null;
 		
+		this.schemaName = schemaName;
 		this.tableName = tableName;
 		this.data = data;
 		this.metaProvider = metaProvider;
@@ -51,7 +54,7 @@ public class JsonTable extends AbstractTable {
 		if(null != rowDataType)
 			return rowDataType;
 		
-		rowDataType = metaProvider.getTableRowType(tableName, typeFactory);
+		rowDataType = metaProvider.getTableRowType(schemaName, tableName, typeFactory);
 		return rowDataType;
 	}
 	

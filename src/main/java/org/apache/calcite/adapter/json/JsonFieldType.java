@@ -31,10 +31,11 @@ import org.apache.calcite.sql.type.SqlTypeName;
  * @author xiaobo gu
  *
  */
-enum JsonFieldType {
-	  STRING(String.class, "string"),
+public enum JsonFieldType {
+
+	  STRING(String.class, "varchar"),
 	  BOOLEAN(Boolean.class, "boolean"),
-	  LONG(Long.class, "long"),
+	  LONG(Long.class, "bigint"),
 	  DECIMAL(BigDecimal.class, "decimal"),
 	  DATE(LocalDate.class, "date"),
 	  TIMESTAMP(LocalDateTime.class, "timestamp"),
