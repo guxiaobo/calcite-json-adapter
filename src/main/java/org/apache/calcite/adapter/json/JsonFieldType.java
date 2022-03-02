@@ -36,13 +36,14 @@ public enum JsonFieldType {
 	  STRING(String.class, "varchar"),
 	  BOOLEAN(Boolean.class, "boolean"),
 	  LONG(Long.class, "bigint"),
+	  INTEGER(Integer.class, "integer"),
 	  DECIMAL(BigDecimal.class, "decimal"),
+	  FLOAT(Double.class, "float"),
+	  REAL(Float.class, "real"),
 	  DATE(LocalDate.class, "date"),
 	  TIMESTAMP(LocalDateTime.class, "timestamp"),
-	  TIME(LocalTime.class, "time"),
-	  INTEGER(Integer.class, "integer"),
-	  FLOAT(Double.class, "float"),
-	  REAL(Float.class, "real");
+	  TIME(LocalTime.class, "time")
+	  ;
 
 	  @SuppressWarnings("rawtypes")
 	  private final Class clazz;
