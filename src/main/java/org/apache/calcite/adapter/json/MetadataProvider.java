@@ -17,6 +17,7 @@
 package org.apache.calcite.adapter.json;
 
 import java.util.Set;
+import org.apache.calcite.sql.type.SqlTypeName;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
 
@@ -31,7 +32,12 @@ public interface MetadataProvider {
 	
 	public Set<String> getTableNames();
 	
-	public RelDataType getTableRowType(String schemaName, String tableName, RelDataTypeFactory typeFactory);
-
+	public RelDataType getTableRowType(
+			String schemaName, String tableName, 
+			RelDataTypeFactory typeFactory);
+	
+	public SqlTypeName toSqlTypeName(Object obj);
+	
+	public Object convertValue(SqlTypeName type,  Object rawValue);
 	
 }

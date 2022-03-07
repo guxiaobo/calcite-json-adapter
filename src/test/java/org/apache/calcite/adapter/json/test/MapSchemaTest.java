@@ -9,20 +9,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.calcite.adapter.json.JsonSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.Schema;
 import org.junit.Test;
 
-import com.alibaba.fastjson.JSONObject;
 
-public class JsonSchemaTest extends BaseTest{
+public class MapSchemaTest extends BaseTest{
 	
-	private Map<String, List<JSONObject>> makeJsonMap(){
-		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
-		List<JSONObject> t1 = new ArrayList<JSONObject>();
-		JSONObject r1 = new JSONObject();
+	private Map<String, List<Map<String, Object>>> makeJsonMap(){
+		Map<String, List<Map<String, Object>>> map = new HashMap<String, List<Map<String, Object>>>();
+		List<Map<String, Object>> t1 = new ArrayList<Map<String, Object>>();
+		Map<String, Object> r1 = new HashMap<String, Object>();
 		t1.add(r1);
 		t1.add(r1);
 		t1.add(r1);
@@ -44,7 +42,7 @@ public class JsonSchemaTest extends BaseTest{
 	
 	@Test
 	public void test10() throws SQLException {
-		Map<String, List<JSONObject>> map = makeJsonMap();
+		Map<String, List<Map<String, Object>>> map = makeJsonMap();
 		
 		//String sql1 = "select count(*) from t1";
 		String sql2 = "select count(*) from js.t1";

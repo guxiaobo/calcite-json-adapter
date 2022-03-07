@@ -17,28 +17,29 @@
 package org.apache.calcite.adapter.json;
 
 import java.util.List;
+import java.util.Map;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
 import org.apache.calcite.schema.Statistic;
 import org.apache.calcite.schema.Statistics;
 import org.apache.calcite.schema.impl.AbstractTable;
 
-import com.alibaba.fastjson.JSONObject;
 /***
  * A JsonTable turns a List of JSONObjects as a SQL queryable table.
  * 
  * @author xiaobo gu
  *
  */
-public class JsonTable extends AbstractTable {
+public class JsonTable <T extends Map<String, Object>>
+	extends AbstractTable {
 	protected String schemaName;
 	protected String tableName;
-	protected List<JSONObject> data ;
+	protected List<T> data ;
 	protected MetadataProvider metaProvider;
 	protected RelDataType rowDataType;
 	
 	public JsonTable(String schemaName, String tableName, 
-			List<JSONObject> data,  MetadataProvider metaProvider) {
+			List<T> data,  MetadataProvider metaProvider) {
 		assert tableName != null && !tableName.isBlank();
 		assert data != null;
 		assert metaProvider != null;

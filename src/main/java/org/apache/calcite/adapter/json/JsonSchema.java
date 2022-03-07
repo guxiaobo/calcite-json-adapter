@@ -19,7 +19,6 @@ package org.apache.calcite.adapter.json;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.List;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import org.apache.calcite.schema.Table;
 import org.apache.calcite.schema.impl.AbstractSchema;
@@ -30,12 +29,12 @@ import org.apache.calcite.schema.impl.AbstractSchema;
  * @author xiaobo gu
  *
  */
-public class JsonSchema 
+public class JsonSchema < T extends Map<String, Object> >
 	extends AbstractSchema {
 	
 	//protected Map<String, Table> tableMap;
 	protected String schemaName;
-	protected Map<String, List<JSONObject>> data;
+	protected Map<String, List<T>> data;
 	protected MetadataProvider metaProvider;
 	
 	/***
@@ -43,19 +42,21 @@ public class JsonSchema
 	 * @param data
 	 * @param metaProvider
 	 */
-	public JsonSchema(String schemaName, Map<String, List<JSONObject>> data, MetadataProvider metaProvider) {
+	public JsonSchema(String schemaName, 
+			Map<String, List<T>> data, 
+			MetadataProvider metaProvider) {
 		super();
 		assert data != null;
 		
 		this.schemaName = schemaName;
 		this.data = data;
-		this.metaProvider = metaProvider != null ?  metaProvider : new DefaultMetadataProvider(data);
+		this.metaProvider = metaProvider != null ?  metaProvider : new DefaultMetadataProvider<>(data);
 	}
 	/***
 	 * Create a JsonSchema using the DefaultMetadataProvider.
 	 * @param data
 	 */
-	public JsonSchema(String schemaName, Map<String, List<JSONObject>> data) {
+	public JsonSchema(String schemaName, Map<String, List<T>> data) {
 		this(schemaName, data,null);
 	}
 	
@@ -64,8 +65,8 @@ public class JsonSchema
 		// Build a map from table name to table; each list becomes a table.
 	    final ImmutableMap.Builder<String, Table> builder = ImmutableMap.builder();
 	    
-	    for (Entry<String,List<JSONObject>> e : data.entrySet()) {
-	        final Table table = new JsonScannableTable(schemaName, e.getKey(), e.getValue(), metaProvider);
+	    for (Entry<String,List<T>> e : data.entrySet()) {
+	        final Table table = new JsonScannableTable<T>(schemaName, e.getKey(), e.getValue(), metaProvider);
 	        builder.put(e.getKey(), table);
 	    }
 	    return builder.build();

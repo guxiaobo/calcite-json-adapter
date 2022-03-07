@@ -17,25 +17,27 @@
 package org.apache.calcite.adapter.json;
 
 import java.util.List;
+import java.util.Map;
 import org.apache.calcite.DataContext;
 import org.apache.calcite.adapter.java.JavaTypeFactory;
 import org.apache.calcite.linq4j.AbstractEnumerable;
 import org.apache.calcite.linq4j.Enumerable;
 import org.apache.calcite.linq4j.Enumerator;
 import org.apache.calcite.schema.ScannableTable;
-import com.alibaba.fastjson.JSONObject;
+
 /****
  * 
  * @author xiaobo gu
  *
  */
-public class JsonScannableTable extends JsonTable
+public class JsonScannableTable <T extends Map<String, Object>>
+	extends JsonTable<T>
 	implements ScannableTable {
 	
 	public JsonScannableTable(
 			String schemaName,
 			String tableName, 
-			List<JSONObject> data,  
+			List<T> data,  
 			MetadataProvider metaProvider) {
 		super(schemaName, tableName, data, metaProvider);
 	}
@@ -51,7 +53,7 @@ public class JsonScannableTable extends JsonTable
 		
 		return new AbstractEnumerable<Object[]>() {
 		  public Enumerator<Object[]> enumerator() {
-		    return new JsonEnumerator(tableName, data, rowDataType);
+		    return new JsonEnumerator<T>(tableName, data, rowDataType, metaProvider);
 		  }
 		};
 	}
