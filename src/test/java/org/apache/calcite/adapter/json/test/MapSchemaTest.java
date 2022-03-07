@@ -40,7 +40,7 @@ public class MapSchemaTest extends BaseTest{
 		return map;
 	}
 	
-	@Test
+	//@Test
 	public void test10() throws SQLException {
 		Map<String, List<Map<String, Object>>> map = makeJsonMap();
 		
