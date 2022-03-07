@@ -43,7 +43,7 @@ import org.apache.calcite.util.Pair;
  * @author xiaobo gu
  *
  */
-public class DefaultMetadataProvider <T extends Map<String, Object> >
+public class DefaultMetadataProvider <T extends Map<String, ?> >
 	implements MetadataProvider {
 	Map<String, List<T> > data;
 	

@@ -30,7 +30,7 @@ import org.apache.calcite.schema.impl.AbstractTable;
  * @author xiaobo gu
  *
  */
-public class JsonTable <T extends Map<String, Object>>
+public class JsonTable <T extends Map<String, ?>>
 	extends AbstractTable {
 	protected String schemaName;
 	protected String tableName;

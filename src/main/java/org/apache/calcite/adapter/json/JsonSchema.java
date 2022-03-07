@@ -29,7 +29,7 @@ import org.apache.calcite.schema.impl.AbstractSchema;
  * @author xiaobo gu
  *
  */
-public class JsonSchema < T extends Map<String, Object> >
+public class JsonSchema < T extends Map<String, ?> >
 	extends AbstractSchema {
 	
 	//protected Map<String, Table> tableMap;

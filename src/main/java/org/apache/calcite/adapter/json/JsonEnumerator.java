@@ -31,7 +31,7 @@ import org.apache.calcite.sql.type.SqlTypeName;
  * @author xiaobo gu
  *
  */
-public class JsonEnumerator <T extends Map<String, Object> >
+public class JsonEnumerator <T extends Map<String, ?> >
 	implements Enumerator<Object[]> {
 
 	protected Enumerator<Object[]> enumerator;

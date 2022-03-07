@@ -30,7 +30,7 @@ import org.apache.calcite.schema.ScannableTable;
  * @author xiaobo gu
  *
  */
-public class JsonScannableTable <T extends Map<String, Object>>
+public class JsonScannableTable <T extends Map<String, ?>>
 	extends JsonTable<T>
 	implements ScannableTable {
 	
