@@ -62,7 +62,7 @@ public class DynamicDataTest extends BaseTest{
 	 *  Add rows dynamiclly
 	 * @throws SQLException
 	 */
-	//@Test
+	@Test
 	public void test1() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
@@ -99,7 +99,7 @@ public class DynamicDataTest extends BaseTest{
 		map.put("t1", t);
 		t.add(row);
 		
-		String sql1 = "select c1 from js.t1";
+		String sql1 = "select c1 , c2 from js.t1";
 
 		Schema schema = new JsonSchema<>("js", map);
 		
@@ -113,7 +113,8 @@ public class DynamicDataTest extends BaseTest{
 		conn.close();
 	}
 	
-	//@Test
+	//add column dynamiclly
+	@Test 
 	public void test3() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
@@ -122,7 +123,8 @@ public class DynamicDataTest extends BaseTest{
 		t.add(row);
 		
 		
-		String sql3 = "select c11 from js.t1";
+		String sql3 = "select  c11, c1 from js.t1";
+		//String sql4 = "select c11, c1 from js.t1";
 
 		Schema schema = new JsonSchema<>("js", map);
 		
@@ -139,7 +141,8 @@ public class DynamicDataTest extends BaseTest{
 		conn.close();
 	}
 	
-	//@Test
+	//add table dynamiclly
+	@Test 
 	public void test4() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
@@ -165,7 +168,8 @@ public class DynamicDataTest extends BaseTest{
 		conn.close();
 	}
 	
-	//@Test
+	//add schema dynamicly
+	@Test
 	public void test5() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
