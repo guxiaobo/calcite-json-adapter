@@ -59,7 +59,7 @@ public class DynamicDataTest extends BaseTest{
 	}
 	
 	/***
-	 * 在语句执行前后动态增加数据的行数
+	 *  Add rows dynamiclly
 	 * @throws SQLException
 	 */
 	//@Test
@@ -88,7 +88,7 @@ public class DynamicDataTest extends BaseTest{
 	}
 	
 	/***
-	 * 动态某个列的改变数据类型
+	 * change data of the column dynamicly
 	 * @throws SQLException
 	 */
 	@Test
