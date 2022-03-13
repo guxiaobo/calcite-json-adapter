@@ -79,9 +79,9 @@ public class JsonTable <T extends Map<String, ?>>
 		return Statistics.UNKNOWN;
 	}
 	
-	public Enumerable<Object[]> project(DataContext root, String[] fields) {
-	    return new AbstractEnumerable<Object[]>() {
-	      public Enumerator<Object[]> enumerator() {
+	public Enumerable<Object> project(DataContext root, String[] fields) {
+	    return new AbstractEnumerable<Object>() {
+	      public Enumerator<Object> enumerator() {
 	        return new JsonEnumerator<T>(
 	        		tableName, 
 	        		data, 

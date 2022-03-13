@@ -99,7 +99,7 @@ public class DynamicDataTest extends BaseTest{
 		map.put("t1", t);
 		t.add(row);
 		
-		String sql1 = "select c1 , c2 from js.t1";
+		String sql1 = "select c1 from js.t1";
 
 		Schema schema = new JsonSchema<>("js", map);
 		
@@ -123,7 +123,7 @@ public class DynamicDataTest extends BaseTest{
 		t.add(row);
 		
 		
-		String sql3 = "select  c11, c1 from js.t1";
+		String sql3 = "select  c11 from js.t1";
 		//String sql4 = "select c11, c1 from js.t1";
 
 		Schema schema = new JsonSchema<>("js", map);

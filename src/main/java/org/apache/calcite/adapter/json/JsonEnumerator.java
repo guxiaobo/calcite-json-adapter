@@ -30,7 +30,7 @@ import org.apache.calcite.sql.type.SqlTypeName;
  *
  */
 public class JsonEnumerator <T extends Map<String, ?> >
-	implements Enumerator<Object[]> {
+	implements Enumerator<Object> {
 
 	//protected Enumerator<Object> enumerator;
 	protected List<T> data;
@@ -56,7 +56,7 @@ public class JsonEnumerator <T extends Map<String, ?> >
 		 // enumerator = Linq4j.enumerator(objs);
 	  }
 	  
-	  public Object[] current() {
+	  public Object current() {
 		 // List<Object[]> objs = new ArrayList<Object[]>();
 		  //int fieldCount = rowDataType.getFieldCount();
 		  //List<RelDataTypeField> fields = rowDataType.getFieldList();
@@ -76,7 +76,10 @@ public class JsonEnumerator <T extends Map<String, ?> >
 				  SqlTypeName sName = field.getType().getSqlTypeName();
 				  obj[j] = provider.convertValue(sName, fieldData);
 			  }
-			return obj;
+			  if(fieldIndex.length > 1)
+				  return obj;
+			  else
+				  return obj[0];
 			 // }
 			//  objs.add(obj);
 	    //return enumerator.current();
