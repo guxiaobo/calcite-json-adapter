@@ -66,7 +66,8 @@ public class JsonSchema < T extends Map<String, ?> >
 	    final ImmutableMap.Builder<String, Table> builder = ImmutableMap.builder();
 	    
 	    for (Entry<String,List<T>> e : data.entrySet()) {
-	        final Table table = new JsonScannableTable<T>(schemaName, e.getKey(), e.getValue(), metaProvider);
+	        //final Table table = new JsonScannableTable<T>(schemaName, e.getKey(), e.getValue(), metaProvider);
+	    	final Table table = new JsonTable<T>(schemaName, e.getKey(), e.getValue(), metaProvider);
 	        builder.put(e.getKey(), table);
 	    }
 	    return builder.build();

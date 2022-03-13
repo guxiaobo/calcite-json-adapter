@@ -58,7 +58,11 @@ public class DynamicDataTest extends BaseTest{
 		return r1;
 	}
 	
-	@Test
+	/***
+	 * 在语句执行前后动态增加数据的行数
+	 * @throws SQLException
+	 */
+	//@Test
 	public void test1() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
@@ -68,34 +72,25 @@ public class DynamicDataTest extends BaseTest{
 		
 		String sql1 = "select count(*) from js.t1";
 		//String sql2 = "select count(*) from js.t1";
-
-		Schema schema = new JsonSchema<>("js", map);
-		
-		CalciteConnection conn = this.openConn1(schema, "js");		
-		System.out.println("sql1 result " + exeGetLong(conn, sql1));
-		
-		t.add(row);
-		System.out.println("sql1 result " + exeGetLong(conn, sql1));
-		
-		
-		
-		
-		//System.out.println("sql2 result " + exeGetLong(conn, sql2));
-		//System.out.println("c1 = " + exeGetLong(conn, "select max(c1) from js.t1"));
-		//System.out.println("c2 = " + exeGetString(conn, "select c2 from js.t1 limit 1"));
-		//System.out.println("c3 = " + exeGetBoolean(conn, "select c3 from js.t1 limit 1"));
-		//System.out.println("c4 = " + exeGetDecimal(conn, "select c4 from js.t1 limit 1"));
-		//System.out.println("c5 = " + exeGetDate(conn, "select c5 from js.t1 limit 1"));
-		//System.out.println("c6 = " + exeGetTimestamp(conn, "select c6 from js.t1 limit 1"));
-		//System.out.println("c7 = " + exeGetInteger(conn, "select c7 from js.t1 limit 1"));
-		//System.out.println("c8 as float = " + exeGetFloat(conn, "select c8 from js.t1 limit 1"));
-		//System.out.println("c9 as float = " + exeGetFloat(conn, "select c9 from js.t1 limit 1"));
-		//System.out.println("c8 as double = " + exeGetDouble(conn, "select c8 from js.t1 limit 1"));
-		//System.out.println("c9 as double = " + exeGetDouble(conn, "select c9 from js.t1 limit 1"));
-		//System.out.println("c10 = " + exeGetTime(conn, "select c10 from js.t1 limit 1"));
-		conn.close();
+		try {
+			Schema schema = new JsonSchema<>("js", map);
+			
+			CalciteConnection conn = this.openConn1(schema, "js");		
+			System.out.println("sql1 result " + exeGetLong(conn, sql1));
+			
+			t.add(row);
+			System.out.println("sql1 result " + exeGetLong(conn, sql1));
+			
+			conn.close();
+		}catch(Throwable th) {
+			th.printStackTrace();
+		}
 	}
 	
+	/***
+	 * 动态某个列的改变数据类型
+	 * @throws SQLException
+	 */
 	@Test
 	public void test2() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
@@ -118,7 +113,7 @@ public class DynamicDataTest extends BaseTest{
 		conn.close();
 	}
 	
-	@Test
+	//@Test
 	public void test3() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
@@ -144,7 +139,7 @@ public class DynamicDataTest extends BaseTest{
 		conn.close();
 	}
 	
-	@Test
+	//@Test
 	public void test4() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
@@ -170,7 +165,7 @@ public class DynamicDataTest extends BaseTest{
 		conn.close();
 	}
 	
-	@Test
+	//@Test
 	public void test5() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();

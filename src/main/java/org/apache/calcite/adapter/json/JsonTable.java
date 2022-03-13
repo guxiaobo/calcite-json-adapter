@@ -16,12 +16,26 @@
  */
 package org.apache.calcite.adapter.json;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import org.apache.calcite.DataContext;
+import org.apache.calcite.linq4j.AbstractEnumerable;
+import org.apache.calcite.linq4j.Enumerable;
+import org.apache.calcite.linq4j.Enumerator;
+import org.apache.calcite.linq4j.QueryProvider;
+import org.apache.calcite.linq4j.Queryable;
+import org.apache.calcite.linq4j.tree.Expression;
+import org.apache.calcite.plan.RelOptTable;
+import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
+import org.apache.calcite.schema.QueryableTable;
+import org.apache.calcite.schema.SchemaPlus;
+import org.apache.calcite.schema.Schemas;
 import org.apache.calcite.schema.Statistic;
 import org.apache.calcite.schema.Statistics;
+import org.apache.calcite.schema.TranslatableTable;
 import org.apache.calcite.schema.impl.AbstractTable;
 
 /***
@@ -31,7 +45,9 @@ import org.apache.calcite.schema.impl.AbstractTable;
  *
  */
 public class JsonTable <T extends Map<String, ?>>
-	extends AbstractTable {
+	extends AbstractTable 
+	implements QueryableTable, TranslatableTable{
+	
 	protected String schemaName;
 	protected String tableName;
 	protected List<T> data ;
@@ -62,6 +78,60 @@ public class JsonTable <T extends Map<String, ?>>
 	public Statistic getStatistic() {
 		return Statistics.UNKNOWN;
 	}
+	
+	public Enumerable<Object[]> project(DataContext root, String[] fields) {
+	    return new AbstractEnumerable<Object[]>() {
+	      public Enumerator<Object[]> enumerator() {
+	        return new JsonEnumerator<T>(
+	        		tableName, 
+	        		data, 
+	        		metaProvider.getTableRowType(schemaName, tableName, root.getTypeFactory()), 
+	        		metaProvider,
+	        		fields);
+	      }
+	    };
+	  }
+
+	@Override
+	  public <K> Queryable<K> asQueryable(
+			  QueryProvider queryProvider, SchemaPlus schemaPlus, String s) {
+	    throw new UnsupportedOperationException();
+	  }
+	
+	  @Override
+	  public Type getElementType() {
+	    return Object[].class;
+	  }
+   
+	  @SuppressWarnings("rawtypes")
+	@Override
+	  public Expression getExpression(
+			  SchemaPlus schemaPlus, String tableName, Class clazz) {
+	    return Schemas.tableExpression(
+	    		schemaPlus, getElementType(), tableName, clazz);
+	  }
+
+	  @Override
+	  public RelNode toRel(RelOptTable.ToRelContext context, RelOptTable relOptTable) {
+	    relOptTable.getRowType();
+	    List<String> names = relOptTable.getRowType().getFieldNames();
+	    String[] ary = new String[names.size()];
+	    for(int i = 0; i < names.size();i++) {
+	    	ary[i] = names.get(i);
+	    }
+	    return new JsonTableScan(context.getCluster(), relOptTable, ary);
+	  }
+	  /*
+
+	  private Schema.Type getAvroNullableField(Schema.Field field) {
+	    for (Schema schema : field.schema().getTypes()) {
+	      Schema.Type avroType = schema.getType();
+	      if (avroType != Schema.Type.NULL) {
+	        return avroType;
+	      }
+	    }
+	    return null;
+	  }*/
 }
 
 // End JsonTable.java

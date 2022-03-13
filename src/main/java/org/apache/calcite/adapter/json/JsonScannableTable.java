@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.calcite.DataContext;
 import org.apache.calcite.adapter.java.JavaTypeFactory;
-import org.apache.calcite.linq4j.AbstractEnumerable;
 import org.apache.calcite.linq4j.Enumerable;
-import org.apache.calcite.linq4j.Enumerator;
 import org.apache.calcite.schema.ScannableTable;
 
 /****
@@ -46,15 +44,22 @@ public class JsonScannableTable <T extends Map<String, ?>>
 		return "JsonScannableTable";
 	}
 
-	public Enumerable<Object[]> scan(DataContext root) {
+	public Enumerable< Object[]> scan(DataContext root) {
 		JavaTypeFactory typeFactory = root.getTypeFactory();
 		if(rowDataType == null)
 			getRowType(typeFactory);
+		throw new IllegalArgumentException("Not implemented");
 		
-		return new AbstractEnumerable<Object[]>() {
-		  public Enumerator<Object[]> enumerator() {
-		    return new JsonEnumerator<T>(tableName, data, rowDataType, metaProvider);
+		/*
+		return new AbstractEnumerable<Object>() {
+		  public Enumerator<Object> enumerator() {
+			 String[] fields = (String[])(metaProvider
+	    			  .getTableRowType(schemaName, tableName, root.getTypeFactory())
+	    			  .getFieldNames().toArray());
+		    return new JsonEnumerator<T>(tableName, data, rowDataType, metaProvider, 
+		    		fields);
 		  }
 		};
+		*/
 	}
 }
