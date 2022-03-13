@@ -19,17 +19,17 @@ limitations under the License.
 -->
 # calcite-json-adapter
 
-A dynamic reflective calcite adapter for json lists.
+A dynamic reflective calcite adapter for map lists.
 
-It contains calcite related classes to make Map<String, List < JSONObject> >
+It contains calcite related classes to make Map<String, List < Map<String, ?> >
 
 a SQL queryable schema, Map keys are mapped to table names, each List  is mapped to a table,
-each JSONObject objec is mapped to a row, JSONobject's keys are mapped to columns names.
+each inner map objec is mapped to a row, whith keys are mapped to columns names.
 
 
 For more details about Calcite, see the [home page](http://calcite.apache.org).
 
-calcite-json-adapter can only query the first level sub-objects of JSONObjects, and only
+calcite-json-adapter can only query the first level sub-objects of the inner map, and only
 sub-objects of the following Java classes can be mapped to columns,sub-objects of other JAVA type will be ignored.
 
 String (mapped as VARCHAR)
@@ -44,7 +44,7 @@ LocalTime (mapped as TIME)
 LocalDateTime (mapped as TIMESTAMP)
 
 
-Sub-objects with the same key under different JSONObjects in the same List (table) must be the
+Sub-objects with the same key under different inner map objects in the same List (table) must be the
 same JAVA type, otherwise an IllegalArgumentException will be thrown when executing queries.
 
 The DefaultMetadataProvider infers columns and their types from the data itself, it will merge all valid sub-object's keys to the full column list of the mapped table.
