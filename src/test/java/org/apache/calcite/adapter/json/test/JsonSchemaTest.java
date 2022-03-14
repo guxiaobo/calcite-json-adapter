@@ -43,7 +43,7 @@ public class JsonSchemaTest extends BaseTest{
 		return map;
 	}
 	
-	@Test
+	//@Test
 	public void test1_1() throws SQLException {
 		Map<String, List<JSONObject>> map = makeJsonMap();
 		
