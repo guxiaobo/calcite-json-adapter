@@ -17,15 +17,18 @@ import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.core.TableScan;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
+import org.apache.calcite.rel.type.RelDataTypeField;
 
 
 
-public class JsonTableScan extends TableScan implements EnumerableRel {
+public class JsonTableScan 
+	extends TableScan 
+	implements EnumerableRel {
 
-	private String[] fields;
+	private Integer[] fields;
 
 	@SuppressWarnings("deprecation")
-	public JsonTableScan(RelOptCluster cluster, RelOptTable table, String[] fields) {
+	public JsonTableScan(RelOptCluster cluster, RelOptTable table, Integer[] fields) {
 	    super(cluster, cluster.traitSetOf(EnumerableConvention.INSTANCE), table);
 	    this.fields = fields;
 	  }
@@ -37,9 +40,9 @@ public class JsonTableScan extends TableScan implements EnumerableRel {
 
 	  @Override
 	  public RelDataType deriveRowType() {  
-		RelDataType rowDataType = getTable().getRowType();
+		  List<RelDataTypeField> fieldList = getTable().getRowType().getFieldList();
 	    RelDataTypeFactory.Builder builder = getCluster().getTypeFactory().builder();
-	    Arrays.stream(fields).forEach(field -> builder.add(rowDataType.getField(field,false,false)));
+	    Arrays.stream(fields).forEach(field -> builder.add(fieldList.get(field)));
 	    return builder.build();
 	  }
 

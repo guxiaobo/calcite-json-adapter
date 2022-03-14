@@ -43,32 +43,50 @@ public class JsonSchemaTest extends BaseTest{
 		return map;
 	}
 	
-	//@Test
+	@Test
 	public void test1_1() throws SQLException {
 		Map<String, List<JSONObject>> map = makeJsonMap();
-		
-		String sql1 = "select count(*) from js.t1";
-
 		Schema schema = new JsonSchema<>("js", map);
 		
 		CalciteConnection conn = this.openConn1(schema, "js");		
-		System.out.println("sql1 result " + exeGetLong(conn, sql1));
-		System.out.println("c1 = " + exeGetLong(conn, "select max(c1) from js.t1"));
-		System.out.println("c2 = " + exeGetString(conn, "select c2 from js.t1 limit 1"));
+		System.out.println("num of t1 : "      + exeGetLong(conn, "select count(*) from js.t1"));
+		System.out.println("max(c1+c11) = "    + exeGetLong(conn, "select max(c1+c11) from js.t1"));
+		System.out.println("min(c1+c11) = "    + exeGetLong(conn, "select min(c1+c11) from js.t1"));
+		System.out.println("sum(c1+c11) = "    + exeGetLong(conn, "select sum(c1+c11) from js.t1"));
+		System.out.println("avg(c1+c11) = "    + exeGetLong(conn, "select avg(c1+c11) from js.t1"));
+		System.out.println("sqrt(c1) = "       + exeGetDecimal(conn, "select sqrt(c1) from js.t1"));
+		System.out.println("ln(c4) = "         + exeGetDecimal(conn, "select ln(c4) from js.t1"));
+		System.out.println("exp(c8) = "        + exeGetDecimal(conn, "select exp(c8) from js.t1"));
+		System.out.println("log10(c9) = "        + exeGetDecimal(conn, "select log10(c9) from js.t1"));
+		System.out.println("rand(c11) = "        + exeGetDouble(conn, "select rand() from js.t1"));
+		
+
+
+		System.out.println("upper(c2) = " + exeGetString(conn, "select upper(c2) from js.t1 limit 1"));
+		System.out.println("LOWER(c2) = " + exeGetString(conn, "select LOWER(c2) from js.t1 limit 1"));
+		System.out.println("TRIM(C2) = " + exeGetString(conn, "select trim(c2) from js.t1 limit 1"));
+		System.out.println("SUBSTRING(c2 from 0 for 1) = " + exeGetString(conn, "select SUBSTRING(c2 from 0 for 1) from js.t1 limit 1"));
+		
+		System.out.println("CHAR_LENGTH(c2) = " + exeGetLong(conn, "select CHAR_LENGTH(c2) from js.t1 limit 1"));
+		System.out.println("POSITION('A' in c2) = " + exeGetLong(conn, "select POSITION('A' in c2) from js.t1 limit 1"));
+		
+		
+		
 		System.out.println("c3 = " + exeGetBoolean(conn, "select c3 from js.t1 limit 1"));
-		System.out.println("c4 = " + exeGetDecimal(conn, "select c4 from js.t1 limit 1"));
-		System.out.println("c5 = " + exeGetDate(conn, "select c5 from js.t1 limit 1"));
-		System.out.println("c6 = " + exeGetTimestamp(conn, "select c6 from js.t1 limit 1"));
+		System.out.println("Year(c5) = " + exeGetInteger(conn, "select Year( c5 )from js.t1 limit 1"));
+		System.out.println("Month(c6) = " + exeGetInteger(conn, "select Month(c6) from js.t1 limit 1"));
+		System.out.println("second(c10) = " + exeGetInteger(conn, "select second(c10) from js.t1 limit 1"));
+		
 		System.out.println("c7 = " + exeGetInteger(conn, "select c7 from js.t1 limit 1"));
 		System.out.println("c8 as float = " + exeGetFloat(conn, "select c8 from js.t1 limit 1"));
 		System.out.println("c9 as float = " + exeGetFloat(conn, "select c9 from js.t1 limit 1"));
 		System.out.println("c8 as double = " + exeGetDouble(conn, "select c8 from js.t1 limit 1"));
 		System.out.println("c9 as double = " + exeGetDouble(conn, "select c9 from js.t1 limit 1"));
-		System.out.println("c10 = " + exeGetTime(conn, "select c10 from js.t1 limit 1"));
+		
 		conn.close();
 	}
 	
-	@Test
+	//@Test
 	public void test1_2()throws SQLException{
 		Map<String, List<JSONObject>> map = makeJsonMap();
 		Schema schema = new JsonSchema<>("js", map);

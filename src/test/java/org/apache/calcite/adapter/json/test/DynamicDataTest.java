@@ -63,7 +63,7 @@ public class DynamicDataTest extends BaseTest{
 	 * @throws SQLException
 	 */
 	//@Test
-	public void test1() throws SQLException {
+	public void test2_1() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
 		JSONObject row = makeRow();
@@ -92,7 +92,7 @@ public class DynamicDataTest extends BaseTest{
 	 * @throws SQLException
 	 */
 	//@Test
-	public void test2() throws SQLException {
+	public void test2_2() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
 		JSONObject row = makeRow();
@@ -115,7 +115,7 @@ public class DynamicDataTest extends BaseTest{
 	
 	//add column dynamiclly
 	//@Test 
-	public void test3() throws SQLException {
+	public void test2_3() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
 		JSONObject row = makeRow();
@@ -143,7 +143,7 @@ public class DynamicDataTest extends BaseTest{
 	
 	//add table dynamiclly
 	//@Test 
-	public void test4() throws SQLException {
+	public void test2_4() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
 		JSONObject row = makeRow();
@@ -170,7 +170,7 @@ public class DynamicDataTest extends BaseTest{
 	
 	//add schema dynamicly
 	//@Test
-	public void test5() throws SQLException {
+	public void test2_5() throws SQLException {
 		List<JSONObject> t = new ArrayList<JSONObject>();
 		Map<String, List<JSONObject>> map = new HashMap<String, List<JSONObject>>();
 		JSONObject row = makeRow();

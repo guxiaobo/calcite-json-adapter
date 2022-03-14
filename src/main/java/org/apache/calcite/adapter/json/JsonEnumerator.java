@@ -32,12 +32,11 @@ import org.apache.calcite.sql.type.SqlTypeName;
 public class JsonEnumerator <T extends Map<String, ?> >
 	implements Enumerator<Object> {
 
-	//protected Enumerator<Object> enumerator;
 	protected List<T> data;
 	protected String tableName;  
 	protected RelDataType rowDataType;
 	protected MetadataProvider provider;
-	protected String[] fieldIndex;
+	protected Integer[] fields;
 	private int pos;
 	
 
@@ -45,45 +44,34 @@ public class JsonEnumerator <T extends Map<String, ?> >
 			  List<T> data, 
 			  RelDataType rowDataType,
 			  MetadataProvider provider,
-			  String[] fieldIndex) {
+			  Integer[] fields) {
 		  this.tableName = tableName;
 		  this.data = data;
 		  this.rowDataType = rowDataType;
 		  this.provider = provider;
-		  this.fieldIndex = fieldIndex;
-		  pos = -1;
-		  
-		 // enumerator = Linq4j.enumerator(objs);
+		  this.fields = fields;
+		  pos = -1;		  
 	  }
 	  
 	  public Object current() {
-		 // List<Object[]> objs = new ArrayList<Object[]>();
-		  //int fieldCount = rowDataType.getFieldCount();
-		  //List<RelDataTypeField> fields = rowDataType.getFieldList();
-		  
-		  int fieldCount = fieldIndex.length;		  
-		  //for(int i = 0; i < data.size(); i++) {
-			  Object[] obj = new Object[fieldCount];
-			  for(int j = 0; j < fieldCount; j++) {
-				  //RelDataTypeField field = fields.get(j);
-				  //Object fieldData = data.get(i).get(field.getName());
-				  RelDataTypeField field = rowDataType.getField(fieldIndex[j], false, false);
-				  Object fieldData = data.get(pos).get(fieldIndex[j]);
-				  if(null == fieldData) {
-					  obj[j] = null;
-					  continue;
-				  }
-				  SqlTypeName sName = field.getType().getSqlTypeName();
-				  obj[j] = provider.convertValue(sName, fieldData);
-			  }
-			  if(fieldIndex.length > 1)
-				  return obj;
-			  else
-				  return obj[0];
-			 // }
-			//  objs.add(obj);
-	    //return enumerator.current();
-				  
+			int fieldCount = fields.length;
+			Object[] obj = new Object[fieldCount];
+			for (int j = 0; j < fieldCount; j++) {
+				//RelDataTypeField field = rowDataType.getField(fieldIndex[j], false, false);
+				RelDataTypeField field = rowDataType.getFieldList().get(fields[j]);
+				
+				Object fieldData = data.get(pos).get(field.getName());
+				if (null == fieldData) {
+					obj[j] = null;
+					continue;
+				}
+				SqlTypeName sName = field.getType().getSqlTypeName();
+				obj[j] = provider.convertValue(sName, fieldData);
+			}
+			if (fields.length > 1)
+				return obj;
+			else
+				return obj[0];
 	  }
 	  
 	  @Override
@@ -100,28 +88,14 @@ public class JsonEnumerator <T extends Map<String, ?> >
 	  public void close() {}
 	  
 	  
-	  /*
-
-	  public boolean moveNext() {
-	    return enumerator.moveNext();
-	  }
-
-	  public void reset() {
-	    enumerator.reset();
-	  }
-
-	  public void close() {
-	    enumerator.close();
-	  }*/
-	  /*
+	 
 	  public static Integer[] identityList(int n) {
 		    Integer[] ret = new Integer[n];
 		    for (int i = 0; i < n; i ++) {
 		      ret[i] = i;
 		    }
 		    return ret;
-		  }
-	  */
+	  }
 	  
 }
 // End JsonEnumerator.java

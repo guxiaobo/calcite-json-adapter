@@ -79,7 +79,7 @@ public class JsonTable <T extends Map<String, ?>>
 		return Statistics.UNKNOWN;
 	}
 	
-	public Enumerable<Object> project(DataContext root, String[] fields) {
+	public Enumerable<Object> project(DataContext root, Integer[] fields) {
 	    return new AbstractEnumerable<Object>() {
 	      public Enumerator<Object> enumerator() {
 	        return new JsonEnumerator<T>(
@@ -114,24 +114,11 @@ public class JsonTable <T extends Map<String, ?>>
 	  @Override
 	  public RelNode toRel(RelOptTable.ToRelContext context, RelOptTable relOptTable) {
 	    relOptTable.getRowType();
-	    List<String> names = relOptTable.getRowType().getFieldNames();
-	    String[] ary = new String[names.size()];
-	    for(int i = 0; i < names.size();i++) {
-	    	ary[i] = names.get(i);
-	    }
-	    return new JsonTableScan(context.getCluster(), relOptTable, ary);
+	    int fieldCount = relOptTable.getRowType().getFieldCount();
+	    Integer[] fields = JsonEnumerator.identityList(fieldCount);
+	    return new JsonTableScan(context.getCluster(), relOptTable, fields);
 	  }
-	  /*
-
-	  private Schema.Type getAvroNullableField(Schema.Field field) {
-	    for (Schema schema : field.schema().getTypes()) {
-	      Schema.Type avroType = schema.getType();
-	      if (avroType != Schema.Type.NULL) {
-	        return avroType;
-	      }
-	    }
-	    return null;
-	  }*/
+	  
 }
 
 // End JsonTable.java
