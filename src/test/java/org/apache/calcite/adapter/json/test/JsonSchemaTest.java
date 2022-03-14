@@ -38,22 +38,21 @@ public class JsonSchemaTest extends BaseTest{
 		r1.put("c8", Double.valueOf(3.43d));
 		r1.put("c9", Float.valueOf(2.33f));
 		r1.put("c10", LocalTime.now());
+		r1.put("c11", Long.valueOf(110));
 		
 		return map;
 	}
 	
-	//@Test
-	public void test10() throws SQLException {
+	@Test
+	public void test1_1() throws SQLException {
 		Map<String, List<JSONObject>> map = makeJsonMap();
 		
-		//String sql1 = "select count(*) from t1";
-		String sql2 = "select count(*) from js.t1";
+		String sql1 = "select count(*) from js.t1";
 
 		Schema schema = new JsonSchema<>("js", map);
 		
 		CalciteConnection conn = this.openConn1(schema, "js");		
-		//System.out.println("sql1 result " + exeGetLong(conn, sql1));
-		System.out.println("sql2 result " + exeGetLong(conn, sql2));
+		System.out.println("sql1 result " + exeGetLong(conn, sql1));
 		System.out.println("c1 = " + exeGetLong(conn, "select max(c1) from js.t1"));
 		System.out.println("c2 = " + exeGetString(conn, "select c2 from js.t1 limit 1"));
 		System.out.println("c3 = " + exeGetBoolean(conn, "select c3 from js.t1 limit 1"));
@@ -67,6 +66,17 @@ public class JsonSchemaTest extends BaseTest{
 		System.out.println("c9 as double = " + exeGetDouble(conn, "select c9 from js.t1 limit 1"));
 		System.out.println("c10 = " + exeGetTime(conn, "select c10 from js.t1 limit 1"));
 		conn.close();
+	}
+	
+	@Test
+	public void test1_2()throws SQLException{
+		Map<String, List<JSONObject>> map = makeJsonMap();
+		Schema schema = new JsonSchema<>("js", map);
+		CalciteConnection conn = this.openConn1(schema, "js");		
+		System.out.println("c1 + c11 = " + exeGetLong(conn, "select c1 + c11 from js.t1"));
+		
+		conn.close();
+		
 	}
 
 }
