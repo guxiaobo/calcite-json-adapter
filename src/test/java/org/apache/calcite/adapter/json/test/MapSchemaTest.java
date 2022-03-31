@@ -14,7 +14,6 @@ import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.Schema;
 import org.junit.Test;
 
-
 public class MapSchemaTest extends BaseTest{
 	
 	private Map<String, List<Map<String, Object>>> makeJsonMap(){
@@ -22,8 +21,7 @@ public class MapSchemaTest extends BaseTest{
 		List<Map<String, Object>> t1 = new ArrayList<Map<String, Object>>();
 		Map<String, Object> r1 = new HashMap<String, Object>();
 		t1.add(r1);
-		t1.add(r1);
-		t1.add(r1);
+		
 		map.put("t1", t1);
 		
 		r1.put("c1", Long.valueOf(100));
@@ -37,8 +35,39 @@ public class MapSchemaTest extends BaseTest{
 		r1.put("c9", Float.valueOf(2.33f));
 		r1.put("c10", LocalTime.now());
 		
+		
+		List<Map<String, Object>> t2 = new ArrayList<Map<String, Object>>();
+		Map<String, Object> r2 = new HashMap<String, Object>();
+		t2.add(r2);
+		
+		map.put("t2", t2);
+		
+		r2.put("c21", Long.valueOf(200));
+		r2.put("c22", "column22");
+		r2.put("c23", Boolean.FALSE);
+		r2.put("c24", new BigDecimal("2.4"));
+		r2.put("c25", LocalDate.now());
+		r2.put("c26", LocalDateTime.now());
+		r2.put("c27", Integer.valueOf(270));
+		r2.put("c28", Double.valueOf(2.83d));
+		r2.put("c29", Float.valueOf(2.29f));
+		r2.put("c210", LocalTime.now());
+		
 		return map;
 	}
+	
+	@Test
+	public void test01() throws SQLException {
+			
+			Map<String, List<Map<String, Object>>> map = makeJsonMap();
+			Schema schema = new JsonSchema<>("js", map);
+			
+			CalciteConnection conn = this.openConn1(schema, "js");		
+			
+			String sql = "select a.c1 + b.c21 from js.t1  as a join js.t2 as b on true";
+			System.out.println("join result " + exeGetLong(conn, sql));
+			
+		}
 	
 	//@Test
 	public void test10() throws SQLException {
